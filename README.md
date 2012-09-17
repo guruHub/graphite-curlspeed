@@ -7,6 +7,8 @@ About this script
 This script will use curl to get speed information for a given list of
 sites and submit the results to graphite.
 
+This script is still a work in progress.
+
 Author: Guzman Braso - guruhub.com.uy
 
 Multi Node Setup

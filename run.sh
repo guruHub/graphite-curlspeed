@@ -88,7 +88,7 @@ for SITELINE in `cat $FILE|grep -v ^\#`; do
 		KEY="${KEY}.$LOCATION"
 	fi	
 	
-	SITE_RESULT=`curl -o /dev/null -s -w "%{time_namelookup};%{time_connect};%{time_starttransfer};%{time_total};%{size_download}\n" "$SITE"`;
+	SITE_RESULT=`$CURLBIN -o /dev/null -s -w "%{time_namelookup};%{time_connect};%{time_starttransfer};%{time_total};%{size_download}\n" "$SITE"`;
 	i=1
 	
 	# Push metric to queue

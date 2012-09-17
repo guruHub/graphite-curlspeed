@@ -23,7 +23,7 @@ GRAPHITE_PORT="2003"
 GRAPHITE_PREPEND="curlspeed"
 
 # Curl Binary
-CURL=/usr/bin/curl
+CURLBIN=/usr/bin/curl
 
 # Dictionary file
 DICTFILE=/usr/share/dict/words
