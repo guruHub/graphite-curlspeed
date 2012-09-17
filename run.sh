@@ -14,6 +14,8 @@ if [ -f $LOCK ]; then
 	echo "Error: lock file found. Is another instance still running?"
 	echo "If not, fix it by: rm -f $LOCK"
 	exit 1
+else
+	echo 1 > $LOCK
 fi
 
 if [ "$TYPE" == "slave" ]; then

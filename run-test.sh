@@ -10,10 +10,12 @@ source config
 # being overrun, so we place a lock to avoid such scenario.
 # If this is the case, you will notice periods in graphtie without
 # data.
-if [ -f $LOCK ]; then
+if [ -f "${LOCK}-test" ]; then
 	echo "Error: lock file found. Is another instance still running?"
-	echo "If not, fix it by: rm -f $LOCK"
+	echo "If not, fix it by: rm -f $LOCK-test"
 	exit 1
+else
+	echo 1 > ${LOCK}-test
 fi
 
 if [ "$TYPE" == "slave" ]; then
@@ -120,5 +122,6 @@ echo -e "$QUEUE"
 #echo -e "$QUEUE" | nc -q 5 $GRAPHITE_HOST $GRAPHITE_PORT
 
 # Done!, remove lock.
-rm -f $LOCK
+rm -f ${LOCK}-test
+
 
