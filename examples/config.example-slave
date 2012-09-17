@@ -1,0 +1,32 @@
+#
+# Graphite Curlspeed Configuration File
+#
+
+# TYPE=(master|slave)
+TYPE="slave"
+
+# SITES=(file|url)
+SITES="http://yoursite.com/graphite-curlspeed/sites.txt"
+
+# Location
+# A word describing location where script is run.
+LOCATION="US_EC2"
+
+# Graphite host
+GRAPHITE_HOST="tuguustats.guruhub.com.uy"
+
+# Graphite port
+GRAPHITE_PORT="2003"
+
+# Graphite key prepend
+# Choose a main key where all websites keys will be appended
+GRAPHITE_PREPEND="curlspeed"
+
+# Curl Binary
+CURL=/usr/bin/curl
+
+# Dictionary file
+DICTFILE=/usr/share/dict/words
+
+# Lock file
+LOCK="/var/tmp/graphite-curlspeed.lock"
