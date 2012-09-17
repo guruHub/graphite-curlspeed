@@ -95,7 +95,11 @@ for SITELINE in `cat $FILE|grep -v ^\#`; do
 	for name in time_namelookup time_connect time_starttransfer time_total size_download; do
 		filter='{ print $'$i' }'
 		value=`echo $SITE_RESULT| awk -F ';' "$filter" `
-		QUEUE="$QUEUE\n$KEY.$name $value $TIMESTAMP"
+		if [ "$QUEUE" == "" ]; then 
+			QUEUE="$KEY.$name $value $TIMESTAMP"
+		else
+			QUEUE="$QUEUE\n$KEY.$name $value $TIMESTAMP"
+		fi
 		i=$(( $i + 1 ))
 		if [ "$name" == "time_starttransfer" ]; then
 			tst=$value
@@ -113,7 +117,7 @@ sites=`cat $FILE|grep -v ^\#|wc -l`
 queued=`echo -e $QUEUE|wc -l`
 #echo "Queued $queued metrics after checking $sites sites, now sending to graphite"
 
-echo -e "$QUEUE" | nc $GRAPHITE_HOST $GRAPHITE_PORT
+echo -e "$QUEUE" | nc -q 5 $GRAPHITE_HOST $GRAPHITE_PORT
 
 # Done!, remove lock.
 rm -f $LOCK

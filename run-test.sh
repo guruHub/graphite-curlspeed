@@ -60,11 +60,11 @@ function site2metric() {
 for SITELINE in `cat $FILE|grep -v ^\#`; do
 
 	TIMESTAMP=`date +%s`
-
 	# Split KEY & SITE from SITELINE
 	KEY=`echo $SITELINE | awk -F '|' '{ print $1 }'`
 	SITE=`echo $SITELINE | awk -F '|' '{ print $2 }'`
-	
+
+	echo "-- Read KEY='$KEY' & SITE='$SITE' from '$SITELINE'"
 	# Some sites need a random number or word
 	if [[ $SITE =~ CURLSPEED_RANDOM ]]; then
 		SITE=`echo $SITE |sed "s/CURLSPEED_RANDOM_NUMBER/$RANDOM/g"`
@@ -77,7 +77,7 @@ for SITELINE in `cat $FILE|grep -v ^\#`; do
 			SITE=`echo $SITE |sed "s/CURLSPEED_RANDOM_WORD/$RANDOM_WORD/g"`
 		fi
 	fi
-
+	echo "---- After parsing SITE=$SITE"
 	# Prepend configured value to key if any
 	if [ "$GRAPHITE_PREPEND"  != "" ]; then
 		KEY="${GRAPHITE_PREPEND}.$KEY"
@@ -90,12 +90,16 @@ for SITELINE in `cat $FILE|grep -v ^\#`; do
 	
 	SITE_RESULT=`$CURLBIN -o /dev/null -s -w "%{time_namelookup};%{time_connect};%{time_starttransfer};%{time_total};%{size_download}\n" $SITE`;
 	i=1
-	
+	echo "---- Got curl data, parsing it"
 	# Push metric to queue
 	for name in time_namelookup time_connect time_starttransfer time_total size_download; do
 		filter='{ print $'$i' }'
 		value=`echo $SITE_RESULT| awk -F ';' "$filter" `
-		QUEUE="$QUEUE\n$KEY.$name $value $TIMESTAMP"
+		if [ "$QUEUE" == "" ]; then
+			QUEUE="$KEY.$name $value $TIMESTAMP"
+		else
+			QUEUE="$QUEUE\n$KEY.$name $value $TIMESTAMP"
+		fi
 		i=$(( $i + 1 ))
 		if [ "$name" == "time_starttransfer" ]; then
 			tst=$value
