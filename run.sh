@@ -18,7 +18,7 @@ fi
 
 if [ "$TYPE" == "slave" ]; then
 	# Slave should update websites list
-	$CURLBIN -o sites.txt $SITES
+	$CURLBIN -s -o sites.txt $SITES
 	FILE="sites.txt"
 else
 	FILE=$SITES
