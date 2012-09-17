@@ -31,6 +31,9 @@ Requirements
 * Linux shell access (no root required)
 * A word dictionary (sudo apt-get install wamerican-huge)
 * Internet access to sites to measure.
+* Curl binary (apt-get install curl)
+* bc - An arbitrary precision calculator language (apt-get install bc)
+
 
 Features
 --------
