@@ -117,7 +117,7 @@ sites=`cat $FILE|grep -v ^\#|wc -l`
 queued=`echo -e $QUEUE|wc -l`
 echo "Queued $queued metrics after checking $sites sites, now sending to graphite"
 echo -e "$QUEUE"
-#echo -e "$QUEUE" | nc $GRAPHITE_HOST $GRAPHITE_PORT
+#echo -e "$QUEUE" | nc -q 5 $GRAPHITE_HOST $GRAPHITE_PORT
 
 # Done!, remove lock.
 rm -f $LOCK
