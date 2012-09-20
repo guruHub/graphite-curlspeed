@@ -48,6 +48,8 @@ or number before calling it with curl. This is useful to fool the cache.
 
 * Site list maintained at one location only.
 
+* Simple php in example folder to browse and filter metrics.
+
 Configuration
 -------------
 
